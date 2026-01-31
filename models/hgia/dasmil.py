@@ -37,6 +37,24 @@ class ChildGuidedCrossAttention(nn.Module):
             print(f"!!! Error during MultiheadAttention: {e}")
             fused = q
 
+        attn_mask = None
+        if childof is not None:
+            # childof: [N_H], each in [0, N_L-1]
+            childof = childof.to(device=feats_high.device, dtype=torch.long).view(-1)
+            N_H = childof.numel()
+            N_L = feats_low.size(0)
+    
+            # MultiheadAttention attn_mask: shape [Lq, Lk], True means "disallow"
+            attn_mask = torch.ones((N_H, N_L), dtype=torch.bool, device=feats_high.device)
+            attn_mask[torch.arange(N_H, device=feats_high.device), childof] = False
+    
+        try:
+            fused_float32 = self.attn(q, k, v_float32, attn_mask=attn_mask, need_weights=False)[0]
+            fused = fused_float32.to(dtype=q.dtype)
+        except Exception as e:
+            print(f"!!! Error during MultiheadAttention: {e}")
+            fused = q
+
         fused = fused + q
         fused_ffn = self.ffn(self.norm_out(fused))
         fused = fused + fused_ffn
@@ -175,3 +193,4 @@ class HGIA(Baseline):
             results["higher"] = self.mil3(feats2d.new_zeros((1, self.c_hidden)))
 
         return results
+
