@@ -73,9 +73,9 @@ def get_args():
     group7.add_argument('--job_parallel', default=10, type=int, help='number of jobs in parallel')
     group7.add_argument('--logfolder', default="logfolder", type=str, help='log folder location name')
 
-    parser.add_argument('--contrastive_temp', type=float, default=0.1,help='对比学习损失函数中的温度参数')
-    parser.add_argument('--contrastive_weight', type=float, default=1,help='对比学习损失函数在总损失中的权重 beta')
-    parser.add_argument('--consistency_weight', type=float, default=0.05,help='跨尺度对齐的损失函数所占比例 alpha')
+    parser.add_argument('--contrastive_temp', type=float, default=0.1)
+    parser.add_argument('--contrastive_weight', type=float, default=1)
+    parser.add_argument('--consistency_weight', type=float, default=0.05)
     parser.add_argument('--gamma', type=float, default=1.0, help='KD')
 
     #buffermil parameters
@@ -87,4 +87,5 @@ def get_args():
     group8.add_argument('--buffer_freq',default=10, type=int, help='frequency to update the buffer')
     args = parser.parse_args()
     return args
+
 
