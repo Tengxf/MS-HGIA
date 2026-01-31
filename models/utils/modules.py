@@ -33,17 +33,6 @@ class BClassifier(nn.Module):
                              kernel_size=input_size)
 
     def forward(self, feats, c):
-        """Forward pass of the bag-level classifier.
-
-        Args:
-            feats (torch.Tensor): Input features.
-            c (torch.Tensor): Class scores.
-
-        Returns:
-            C (torch.Tensor): Bag-level predictions.
-            A (torch.Tensor): Attention scores.
-            B (torch.Tensor): Bag representations.
-        """
         # N x K, N x C
         device = feats.device
         feats = self.lin(feats)
@@ -72,56 +61,20 @@ class BClassifier(nn.Module):
 
 class FCLayer(nn.Module):
     def __init__(self, in_size, out_size=1):
-        """
-        Fully connected layer module.
-
-        Args:
-            in_size (int): Input size.
-            out_size (int): Output size. Defaults to 1.
-        """
         super(FCLayer, self).__init__()
         self.fc = nn.Sequential(nn.Linear(in_size, out_size))
 
     def forward(self, feats):
-        """
-        Forward pass of the fully connected layer.
-
-        Args:
-            feats (torch.Tensor): Input features.
-
-        Returns:
-            feats (torch.Tensor): Input features.
-            x (torch.Tensor) : Output of the fully connected layer.
-        """
         x = self.fc(feats)
         return feats, x
 
 class MILNet(nn.Module):
     def __init__(self, i_classifier, b_classifier):
-        """
-        MILNet module for multiple instance learning.
-
-        Args:
-            i_classifier (nn.Module): Instance-level classifier.
-            b_classifier (nn.Module): Bag-level classifier.
-        """
         super(MILNet, self).__init__()
         self.i_classifier = i_classifier
         self.b_classifier = b_classifier
 
     def forward(self, x):
-        """
-        Forward pass of the MILNet module.
-
-        Args:
-            x (torch.Tensor): Input data.
-
-        Returns:
-            classes (torch.Tensor): Predicted classes.
-            prediction_bag (torch.Tensor): Bag-level predictions.
-            A (torch.Tensor): Attention scores.
-            B (torch.Tensor): Bag representations.
-        """
         feats, classes = self.i_classifier(x)
         prediction_bag, A, B = self.b_classifier(feats, classes)
 
@@ -153,16 +106,6 @@ class GatedLinearUnit(nn.Module):
         return x
 
 def init(model, state_dict_weights):
-    """
-    Initialize the model with the provided state_dict_weights.
-
-    Args:
-        model: The model to initialize.
-        state_dict_weights: The state dictionary containing the model weights.
-
-    Returns:
-        Initialized model.
-    """
     if state_dict_weights is not None:
         try:
             model.load_state_dict(state_dict_weights, strict=False)
@@ -171,3 +114,4 @@ def init(model, state_dict_weights):
             del state_dict_weights['b_classifier.v.1.bias']
             model.load_state_dict(state_dict_weights, strict=False)
     return model
+
