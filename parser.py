@@ -2,7 +2,7 @@ import argparse
 
 
 def get_args():
-    parser = argparse.ArgumentParser(description='TRAIN DASMIL')
+    parser = argparse.ArgumentParser(description='TRAIN MS-HGIA')
 
     # Optimization arguments
     group1 = parser.add_argument_group("optimization")
@@ -87,3 +87,4 @@ def get_args():
     group8.add_argument('--buffer_freq',default=10, type=int, help='frequency to update the buffer')
     args = parser.parse_args()
     return args
+
