@@ -87,12 +87,6 @@ class Baseline(nn.Module):
             x = x
         return x, edge_index
 
-    def forward_gnn(self, x: torch.Tensor, edge_index: torch.Tensor, levels: torch.Tensor, childof: torch.Tensor, edge_index2: torch.Tensor = None, edge_index3: torch.Tensor = None):
-        NotImplementedError("forward_gnn error")
-
-    def forward_mil(self, indecesperlevel: torch.Tensor, feats: torch.Tensor, results: dict):
-        NotImplementedError("forward_mil error")
-
     def forward(self, x: torch.Tensor, edge_index: torch.Tensor, levels: torch.Tensor, childof: torch.Tensor, edge_index2: torch.Tensor = None, edge_index3: torch.Tensor = None):
         feats, indecesperlevel, results = self.forward_gnn(
             x, edge_index, levels, childof, edge_index2, edge_index3)
@@ -186,3 +180,4 @@ class Baseline(nn.Module):
             else:
                 lower_prediction = None
         return higher_prediction, lower_prediction
+
