@@ -17,17 +17,17 @@ pip install -r requirements.txt
 
 ## Data
 
-Camelyon16
+### Camelyon16
 The Camelyon16 dataset can be obtained from the official Grand Challenge website:
 https://camelyon16.grand-challenge.org/Data/
 Please follow the official instructions and data usage policy provided by the challenge website.
 
-TCGA Lung
+### TCGA Lung
 The TCGA Lung dataset can be obtained from the official Genomic Data Commons (GDC) portal:
 https://portal.gdc.cancer.gov/
 The experiments in this work use whole slide images from the LUAD and LUSC cohorts.
 
-BreastC-MS
+### BreastC-MS
 BreastC-MS is an in-house breast cancer dataset used in this study.
 Due to privacy and institutional restrictions, the original WSIs and associated clinical data cannot be publicly released at this time.
 
