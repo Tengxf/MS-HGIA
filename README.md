@@ -13,6 +13,7 @@ Install the required dependencies using:
 
 ```bash
 pip install -r requirements.txt
+```
 
 ## Data
 
@@ -45,4 +46,5 @@ for f in 0 1 2 3 4; do
     --dataset cam \
     --fold $f
 done
+```
 
